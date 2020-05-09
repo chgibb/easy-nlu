@@ -1,1 +1,1 @@
-# easy-nlu
+# easy_nlu
