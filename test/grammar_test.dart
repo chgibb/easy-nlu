@@ -39,5 +39,14 @@ void main() {
       expect(0, g.getBinaryRules("\$B", "\$C").length);
       expect(0, g.getUnaryRules("\$B").length);
     });
+
+    test("should split unary rules", () async {
+      List<Rule> rules = [Rule.fromStrings("\$A", "\$B")];
+      Grammar g = Grammar(rules, "\$ROOT");
+
+      expect(rules[0], g.getUnaryRules("\$B")[0]);
+      expect(0, g.getBinaryRules("\$B", "\$C").length);
+      expect(0, g.getLexicalRules(["\$B,\$C"]).length);
+    });
   });
 }
