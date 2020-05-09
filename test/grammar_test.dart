@@ -18,5 +18,17 @@ void main() {
       expect(g.binaryRules[StringTuple("\$B \$C")][0].getLHS, "\$A");
       expect(g.unaryRules[StringTuple("\$C")][0].getLHS, "\$A");
     });
+
+    test("should split N-ary rule", () async {
+      List<Rule> rules = [Rule.fromStrings("\$A", "\$B \$C \$D")];
+
+      Grammar g = Grammar(rules, null);
+
+      expect(g.binaryRules.containsKey(StringTuple("\$C \$D")), true);
+      expect(g.binaryRules.containsKey(StringTuple("\$B \$A_\$B")), true);
+
+      expect(g.binaryRules[StringTuple("\$C \$D")][0].getLHS, "\$A_\$B");
+      expect(g.binaryRules[StringTuple("\$B \$A_\$B")][0].getLHS, "\$A");
+    });
   });
 }
