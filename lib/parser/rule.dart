@@ -4,22 +4,26 @@ import 'package:easy_nlu/parser/stringTuple.dart';
 class Rule {
   String _lhs;
   StringTuple _rhs;
-  SemanticFunction semantics;
+  SemanticFunction _semantics;
 
-  Rule(String lhs, StringTuple rhs)
+  Rule(String lhs, StringTuple rhs, [SemanticFunction semantics])
       : _lhs = lhs,
-        _rhs = rhs {
+        _rhs = rhs,
+        _semantics = semantics {
     validate();
   }
 
-  Rule.fromStrings(String lhs, String rhs)
+  Rule.fromStrings(String lhs, String rhs, [SemanticFunction semantics])
       : _lhs = lhs,
-        _rhs = StringTuple(rhs) {
+        _rhs = StringTuple(rhs),
+        _semantics = semantics {
     validate();
   }
 
   String get getLHS => _lhs;
   StringTuple get getRHS => _rhs;
+
+  SemanticFunction get getSemantics => _semantics;
 
   bool isLexical() {
     for (var item in _rhs) {

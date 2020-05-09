@@ -16,11 +16,35 @@ class StringTuple extends ListBase<String> {
 
   factory StringTuple.fromList(List<String> parts) {
     String repr = parts.join(" ");
-    return StringTuple.withList(repr, parts);
+    return StringTuple.withList(repr, List.from(parts));
   }
 
   static List<String> _stringToItems(String s) {
     return s.split(" ");
+  }
+
+  String getItem(int index) {
+    return _items[index];
+  }
+
+  StringTuple modify(int index, String Function(String) modifier) {
+    List<String> copy = _stringToItems(_repr);
+
+    copy[index] = modifier(_items[index]);
+
+    String modifiedRepr = copy.join(" ");
+
+    return StringTuple.withList(modifiedRepr, copy);
+  }
+
+  StringTuple removeItem(int index) {
+    List<String> copy = _stringToItems(_repr);
+
+    copy.removeAt(index);
+
+    String modifiedRepr = copy.join(" ");
+
+    return StringTuple.withList(modifiedRepr, copy);
   }
 
   set length(int newLength) {}
@@ -34,6 +58,9 @@ class StringTuple extends ListBase<String> {
     _repr = modifiedRepr;
     _items = copy;
   }
+
+  bool operator ==(Object o) => o is StringTuple ? _repr == o._repr : false;
+  int get hashCode => _repr.hashCode;
 
   String toString() {
     return _repr;
