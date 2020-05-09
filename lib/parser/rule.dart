@@ -2,24 +2,27 @@ import 'package:easy_nlu/parser/semanticFunction.dart';
 import 'package:easy_nlu/parser/stringTuple.dart';
 
 class Rule {
-  String lhs;
-  StringTuple rhs;
+  String _lhs;
+  StringTuple _rhs;
   SemanticFunction semantics;
 
   Rule(String lhs, StringTuple rhs)
-      : lhs = lhs,
-        rhs = rhs {
+      : _lhs = lhs,
+        _rhs = rhs {
     validate();
   }
 
   Rule.fromStrings(String lhs, String rhs)
-      : lhs = lhs,
-        rhs = StringTuple(rhs) {
+      : _lhs = lhs,
+        _rhs = StringTuple(rhs) {
     validate();
   }
 
+  String get getLHS => _lhs;
+  StringTuple get getRHS => _rhs;
+
   bool isLexical() {
-    for (var item in rhs) {
+    for (var item in _rhs) {
       if (item.startsWith("\$")) {
         return false;
       }
@@ -28,15 +31,15 @@ class Rule {
   }
 
   bool isUnary() {
-    return rhs.length == 1;
+    return _rhs.length == 1;
   }
 
   bool isBinary() {
-    return rhs.length == 2;
+    return _rhs.length == 2;
   }
 
   bool isCategorical() {
-    for (var item in rhs) {
+    for (var item in _rhs) {
       if (!isCat(item)) {
         return false;
       }
@@ -46,7 +49,7 @@ class Rule {
   }
 
   bool hasOptionals() {
-    for (var item in rhs) {
+    for (var item in _rhs) {
       if (isOptional(item)) {
         return true;
       }
@@ -55,7 +58,7 @@ class Rule {
   }
 
   void validate() {
-    assert(isCat(lhs), "Invalid Rule: $lhs->$rhs");
+    assert(isCat(_lhs), "Invalid Rule: $_lhs->$_rhs");
   }
 
   bool isCat(String label) {
@@ -67,6 +70,6 @@ class Rule {
   }
 
   String toString() {
-    return "Rule($lhs->$rhs)";
+    return "Rule($_lhs->$_rhs)";
   }
 }

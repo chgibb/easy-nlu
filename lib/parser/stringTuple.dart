@@ -14,6 +14,11 @@ class StringTuple extends ListBase<String> {
     _items = items;
   }
 
+  factory StringTuple.fromList(List<String> parts) {
+    String repr = parts.join(" ");
+    return StringTuple.withList(repr, parts);
+  }
+
   static List<String> _stringToItems(String s) {
     return s.split(" ");
   }
