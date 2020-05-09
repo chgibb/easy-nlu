@@ -23,7 +23,8 @@ class Derivation {
     for (var child in d.children) {
       for (var entry in _getRuleFeatures(child).keys) {
         int count = features.containsKey(entry) ? features[entry] : 0;
-        features[entry] = count + features[entry];
+        features[entry] =
+            count + (features.containsKey(entry) ? features[entry] : 1);
       }
     }
     return features;

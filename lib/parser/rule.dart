@@ -1,13 +1,20 @@
 import 'package:easy_nlu/parser/semanticFunction.dart';
+import 'package:easy_nlu/parser/stringTuple.dart';
 
 class Rule {
   String lhs;
-  List<String> rhs;
+  StringTuple rhs;
   SemanticFunction semantics;
 
-  Rule(String lhs, List<String> rhs)
+  Rule(String lhs, StringTuple rhs)
       : lhs = lhs,
         rhs = rhs {
+    validate();
+  }
+
+  Rule.fromStrings(String lhs, String rhs)
+      : lhs = lhs,
+        rhs = StringTuple(rhs) {
     validate();
   }
 
