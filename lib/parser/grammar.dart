@@ -37,6 +37,25 @@ class Grammar {
     return rule.getLHS == _rootCategory;
   }
 
+  List<Rule> getLexicalRules(List<String> rhs) {
+    StringTuple tuple = StringTuple.fromList(rhs);
+    return lexicalRules.containsKey(tuple) ? lexicalRules[tuple] : [];
+  }
+
+  List<Rule> getUnaryRules(String rhs) {
+    StringTuple tuple = StringTuple.fromList([rhs]);
+    return unaryRules.containsKey(tuple) ? unaryRules[tuple] : [];
+  }
+
+  List<Rule> getBinaryRules(String left, String right) {
+    StringTuple tuple = StringTuple.fromList([left, right]);
+    return binaryRules.containsKey(tuple) ? binaryRules[tuple] : [];
+  }
+
+  Set<Rule> getNonTerminalRules() {
+    return nonTerminals;
+  }
+
   void _addRule(Rule rule) {
     if (rule.hasOptionals()) {
       _processOptionals(rule);

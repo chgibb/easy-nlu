@@ -19,7 +19,7 @@ void main() {
       expect(g.unaryRules[StringTuple("\$C")][0].getLHS, "\$A");
     });
 
-    test("should split N-ary rule", () async {
+    test("should split N-ary rules", () async {
       List<Rule> rules = [Rule.fromStrings("\$A", "\$B \$C \$D")];
 
       Grammar g = Grammar(rules, null);
@@ -29,6 +29,15 @@ void main() {
 
       expect(g.binaryRules[StringTuple("\$C \$D")][0].getLHS, "\$A_\$B");
       expect(g.binaryRules[StringTuple("\$B \$A_\$B")][0].getLHS, "\$A");
+    });
+
+    test("should split lexical rules", () async {
+      List<Rule> rules = [Rule.fromStrings("\$A", "B C")];
+      Grammar g = Grammar(rules, "\$ROOT");
+
+      expect(rules[0], g.getLexicalRules(["B", "C"])[0]);
+      expect(0, g.getBinaryRules("\$B", "\$C").length);
+      expect(0, g.getUnaryRules("\$B").length);
     });
   });
 }
