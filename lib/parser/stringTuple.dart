@@ -47,6 +47,16 @@ class StringTuple extends ListBase<String> {
     return StringTuple.withList(modifiedRepr, copy);
   }
 
+  StringTuple insertItem(int index, String value) {
+    List<String> copy = _stringToItems(_repr);
+
+    copy.insert(0, value);
+
+    String modifiedRepr = copy.join(" ");
+
+    return StringTuple.withList(modifiedRepr, copy);
+  }
+
   set length(int newLength) {}
   int get length => _items.length;
   String operator [](int index) => _items[index];
