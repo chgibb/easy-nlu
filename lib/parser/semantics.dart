@@ -80,6 +80,7 @@ class Semantics {
       }
     } else if (semantics.startsWith("{")) {
       Map<String, Object> template = json.decode(semantics);
+      fn = Semantics.parseTemplate(template);
     } else {
       fn = Semantics.valueFn(semantics);
     }
@@ -99,41 +100,41 @@ class Semantics {
         Map<String, Object> mapIn = queueIn.removeAt(0);
         Map<String, Object> mapOut = queueOut.removeAt(0);
 
-        for (var entry in mapIn.keys) {
-          mapOut[entry] = mapIn[entry];
+        for (var entry in mapIn.entries) {
+          mapOut[entry.key] = entry.value;
 
-          if (entry == Semantics._MERGE) {
-            if (mapIn[entry] is List) {
-              List<int> indices = mapIn[entry];
+          if (entry.key == Semantics._MERGE) {
+            if (entry.value is List) {
+              List<int> indices = entry.value;
               for (var index in indices) {
                 mapOut.addAll(params[index]);
               }
             }
             mapOut.removeWhere((x, _) => x == Semantics._MERGE);
-          } else if (mapIn[entry] is Map) {
+          } else if (entry.value is Map) {
             Map<String, Object> child = {};
-            mapOut[entry] = child;
-            queueIn.add(Map.from(mapIn[entry]));
+            mapOut[entry.key] = child;
+            queueIn.add(entry.value);
             queueOut.add(child);
-          } else if (mapIn[entry] is String) {
-            String value = mapIn[entry];
+          } else if (entry.value is String) {
+            String value = entry.value;
             value = value.trim();
 
             if (value.startsWith("@")) {
               switch (value) {
                 case Semantics._FIRST:
-                  Semantics.subsume(mapOut, params[0], mapIn[entry]);
+                  Semantics.subsume(mapOut, params[0], entry.key);
                   break;
                 case Semantics._LAST:
                   Semantics.subsume(
-                      mapOut, params[params.length - 1], mapIn[entry]);
+                      mapOut, params[params.length - 1], entry.key);
                   break;
                 case Semantics._APPEND:
-                  mapOut[mapIn[entry]] = Semantics.append(params, mapIn[entry]);
+                  mapOut[entry.key] = Semantics.append(params, entry.key);
                   break;
                 default:
                   Semantics.processNumberParams(
-                      mapOut, mapIn[entry], value, params);
+                      mapOut, entry.key, value, params);
                   break;
               }
             }
