@@ -72,7 +72,8 @@ class Semantics {
           break;
         default:
           if (Semantics.PATTERN_PARAM.hasMatch(semantics)) {
-            int index = Semantics.PATTERN_PARAM.firstMatch(semantics).start;
+            int index = int.parse(
+                Semantics.PATTERN_PARAM.firstMatch(semantics).group(1));
             fn = (params) => [params[index]];
           }
           break;
