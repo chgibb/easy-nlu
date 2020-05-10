@@ -2,7 +2,7 @@ import 'package:easy_nlu/parser/rule.dart';
 
 class Derivation {
   Rule rule;
-  double score;
+  double score = 0.0;
   List<Derivation> children;
 
   Derivation(Rule rule, List<Derivation> children)

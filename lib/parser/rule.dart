@@ -29,6 +29,13 @@ class Rule {
     validate();
   }
 
+  Rule.fromStringWithParsedTemplate(String lhs, String rhs, String semantics)
+      : _lhs = lhs,
+        _rhs = StringTuple(rhs),
+        _semantics = Semantics.parseSemantics(semantics) {
+    validate();
+  }
+
   String get getLHS => _lhs;
   StringTuple get getRHS => _rhs;
 
@@ -85,4 +92,8 @@ class Rule {
   String toString() {
     return "Rule($_lhs->$_rhs)";
   }
+
+  bool operator ==(Object o) =>
+      o is Rule ? o._lhs == _lhs && o._rhs == _rhs : false;
+  int get hashCode => _rhs.hashCode;
 }

@@ -14,6 +14,8 @@ class LogicalForm {
     _score = derivation.score;
   }
 
+  Map<String, Object> get map => _map;
+
   bool match(Map<String, Object> map) {
     return MapEquality().equals(_map, map);
   }
