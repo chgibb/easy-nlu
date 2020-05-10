@@ -1,5 +1,6 @@
 import 'package:easy_nlu/parser/semanticFunction.dart';
 import 'package:easy_nlu/parser/stringTuple.dart';
+import 'package:easy_nlu/parser/semantics.dart' show Semantics;
 
 class Rule {
   String _lhs;
@@ -17,6 +18,14 @@ class Rule {
       : _lhs = lhs,
         _rhs = StringTuple(rhs),
         _semantics = semantics {
+    validate();
+  }
+
+  Rule.fromStringsWithTemplate(
+      String lhs, String rhs, Map<String, Object> semantics)
+      : _lhs = lhs,
+        _rhs = StringTuple(rhs),
+        _semantics = Semantics.parseTemplate(semantics) {
     validate();
   }
 
