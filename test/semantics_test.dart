@@ -148,9 +148,100 @@ void main() {
 
       SemanticFunction fn = nlu.Semantics.parseSemantics(json);
 
-      var res = fn(params);
+      expect([expected], fn(params));
+      expect([expected2], fn(params2));
+    });
+
+    test("parse semantics merge", () async {
+      Map<String, Object> expected = {"a": 1, "x": 10, "y": 20};
+
+      List<Map<String, Object>> params = [
+        nlu.Semantics.value(1),
+        nlu.Semantics.named("x", 10),
+        nlu.Semantics.named("y", 20)
+      ];
+
+      String json = "{\"a\":\"@first\", \"@merge\":[1,2]}";
+      SemanticFunction fn = nlu.Semantics.parseSemantics(json);
 
       expect([expected], fn(params));
+    });
+
+    test("parse template", () async {
+      Map<String, Object> template =
+          nlu.Semantics.named("a", nlu.Semantics.FIRST)
+              .named("b", nlu.Semantics.N(1))
+              .named("c", nlu.Semantics.named("d", nlu.Semantics.LAST));
+
+      Map<String, Object> expected = {
+        "a": 1,
+        "b": {"x": 10},
+        "c": {"d": 3}
+      };
+
+      List<Map<String, Object>> params = [
+        nlu.Semantics.value(1),
+        nlu.Semantics.named("x", 10),
+        nlu.Semantics.value(3)
+      ];
+
+      SemanticFunction fn = nlu.Semantics.parseTemplate(template);
+      expect([expected], fn(params));
+    });
+
+    test("parse template merge", () async {
+      Map<String, Object> template =
+          nlu.Semantics.named("a", nlu.Semantics.FIRST).named("@merge", [1, 2]);
+
+      Map<String, Object> expected = {"a": 1, "x": 10, "y": 20};
+
+      List<Map<String, Object>> params = [
+        nlu.Semantics.value(1),
+        nlu.Semantics.named("x", 10),
+        nlu.Semantics.named("y", 20)
+      ];
+
+      SemanticFunction fn = nlu.Semantics.parseTemplate(template);
+      expect([expected], fn(params));
+    });
+
+    test("parse template append", () async {
+      Map<String, Object> template =
+          nlu.Semantics.named("x", nlu.Semantics.APPEND);
+
+      Map<String, Object> expected = nlu.Semantics.named("x", [
+        nlu.Semantics.named("a", 10),
+        nlu.Semantics.named("b", 20),
+        nlu.Semantics.named("c", 3)
+      ]);
+
+      List<Map<String, Object>> params = [
+        nlu.Semantics.value(1),
+        nlu.Semantics.named(
+            "x", [nlu.Semantics.named("a", 10), nlu.Semantics.named("b", 20)]),
+        nlu.Semantics.named("c", 3)
+      ];
+
+      SemanticFunction fn = nlu.Semantics.parseTemplate(template);
+      expect([expected], fn(params));
+    });
+
+    test("process number param", () async {
+      Map<String, Object> actual = Map();
+
+      Map<String, Object> expected = {"a": 10.0, "b": 20};
+
+      List<Map<String, Object>> params = [
+        nlu.Semantics.value(10),
+        nlu.Semantics.value(20)
+      ];
+
+      nlu.Semantics.processNumberParams(
+          actual, "a", nlu.Semantics.N_DOUBLE(0), params);
+      nlu.Semantics.processNumberParams(
+          actual, "b", nlu.Semantics.N_LONG(1), params);
+
+      expect(expected, actual);
     });
   });
 }

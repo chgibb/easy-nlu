@@ -10,15 +10,19 @@ extension ChainMap<K, V> on Map<K, V> {
 }
 
 class Semantics {
-  static const String _IDENTITY = "@identity";
-  static const String _FIRST = "@first";
-  static const String _LAST = "@last";
-  static const String _MERGE = "@merge";
-  static const String _APPEND = "@append";
+  static const String IDENTITY = "@identity";
+  static const String FIRST = "@first";
+  static const String LAST = "@last";
+  static const String MERGE = "@merge";
+  static const String APPEND = "@append";
   static const String KEY_UNNAMED = "__unnamed";
   static RegExp PATTERN_PARAM = RegExp("^@(\\d+)([LF])?");
 
   static SemanticFunction identity = (params) => params;
+
+  static String N(int item) => "@$item";
+  static String N_LONG(int item) => "@${item}L";
+  static String N_DOUBLE(int item) => "@${item}F";
 
   static Map<String, Object> named(String name, Object value) {
     Map<String, Object> map = {};
@@ -58,16 +62,16 @@ class Semantics {
     semantics = semantics.trim();
     if (semantics.startsWith("@")) {
       switch (semantics.toLowerCase()) {
-        case Semantics._IDENTITY:
+        case Semantics.IDENTITY:
           fn = Semantics.identity;
           break;
-        case Semantics._FIRST:
+        case Semantics.FIRST:
           fn = Semantics.first;
           break;
-        case Semantics._LAST:
+        case Semantics.LAST:
           fn = Semantics.last;
           break;
-        case Semantics._MERGE:
+        case Semantics.MERGE:
           fn = Semantics.merge;
           break;
         default:
@@ -103,14 +107,15 @@ class Semantics {
         for (var entry in mapIn.entries) {
           mapOut[entry.key] = entry.value;
 
-          if (entry.key == Semantics._MERGE) {
+          if (entry.key == Semantics.MERGE) {
             if (entry.value is List) {
-              List<int> indices = entry.value;
+              List<dynamic> value = entry.value;
+              List<int> indices = List<int>.from(value);
               for (var index in indices) {
                 mapOut.addAll(params[index]);
               }
             }
-            mapOut.removeWhere((x, _) => x == Semantics._MERGE);
+            mapOut.removeWhere((x, _) => x == Semantics.MERGE);
           } else if (entry.value is Map) {
             Map<String, Object> child = {};
             mapOut[entry.key] = child;
@@ -122,14 +127,14 @@ class Semantics {
 
             if (value.startsWith("@")) {
               switch (value) {
-                case Semantics._FIRST:
+                case Semantics.FIRST:
                   Semantics.subsume(mapOut, params[0], entry.key);
                   break;
-                case Semantics._LAST:
+                case Semantics.LAST:
                   Semantics.subsume(
                       mapOut, params[params.length - 1], entry.key);
                   break;
-                case Semantics._APPEND:
+                case Semantics.APPEND:
                   mapOut[entry.key] = Semantics.append(params, entry.key);
                   break;
                 default:
@@ -156,13 +161,15 @@ class Semantics {
 
       if (numberType == null) {
         Semantics.subsume(map, params[index], key);
-      } else if (params.contains(Semantics.KEY_UNNAMED) &&
-          param[Semantics.KEY_UNNAMED] is int) {
-        int num = param[Semantics.KEY_UNNAMED];
+      } else if (params.firstWhere((x) => x.containsKey(Semantics.KEY_UNNAMED),
+                  orElse: () => null) !=
+              null &&
+          param[Semantics.KEY_UNNAMED] is num) {
+        int val = param[Semantics.KEY_UNNAMED];
         if (numberType == "L") {
-          map[key] = num;
+          map[key] = val;
         } else if (numberType == "F") {
-          map[key] = num.toDouble();
+          map[key] = val.toDouble();
         }
       }
       return true;
