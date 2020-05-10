@@ -40,9 +40,6 @@ jobs:
     - name: Run Flutter doctor
       run: flutter doctor -v
 
-    - name: Node and NPM Versions
-      run: node -v && npm -v
-
     - name: Clone Easy-NLU
       uses: actions/checkout@v2
       with:
