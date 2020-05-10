@@ -100,7 +100,7 @@ class Grammar {
 
     _addRule(Rule(rule.getLHS, withOptional, rule.getSemantics));
     SemanticFunction fn = (params) {
-      params.add(HashMap());
+      params.insert(index,HashMap());
       return rule.getSemantics(params);
     };
 
