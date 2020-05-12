@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:easy_nlu/trainer/example.dart';
 
 class Dataset {
-  List<Example> examples;
+  List<Example> examples = [];
   Random random = Random();
 
   Dataset();
@@ -30,5 +30,29 @@ class Dataset {
     }
 
     return result;
+  }
+
+  Dataset shuffle() {
+    examples.shuffle(random);
+    return this;
+  }
+
+  List<Dataset> split(double trainFraction, bool shuffleFirst) {
+    if (shuffleFirst) {
+      shuffle();
+    }
+
+    int offset = (examples.length * trainFraction).floor();
+    Dataset train = Dataset();
+    Dataset test = Dataset();
+
+    train.examples = examples.sublist(0, offset);
+    test.examples = examples.sublist(offset, examples.length);
+
+    return [train, test];
+  }
+
+  Example randomExample() {
+    return examples[random.nextInt(examples.length)];
   }
 }
