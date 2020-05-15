@@ -29,4 +29,13 @@ class HParams {
   double lrDecay(double defaultParam) {
     return _params["lrDecay"] ?? defaultParam;
   }
+
+  double get(String paramName, double defaultParam) {
+    return _params[paramName] ?? defaultParam;
+  }
+
+  HParams set(String paramName, double value) {
+    _params[paramName] = value;
+    return this;
+  }
 }

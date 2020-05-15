@@ -96,4 +96,22 @@ class Rule {
   bool operator ==(Object o) =>
       o is Rule ? o._lhs == _lhs && o._rhs == _rhs : false;
   int get hashCode => _rhs.hashCode;
+
+  static List<Rule> baseRules = [
+    Rule.fromStrings("\$To", "to"),
+    Rule.fromStrings("\$For", "for"),
+    Rule.fromStrings("\$From", "from"),
+    Rule.fromStrings("\$Of", "of"),
+    Rule.fromStrings("\$On", "on"),
+    Rule.fromStrings("\$In", "in"),
+    Rule.fromStrings("\$The", "the"),
+    Rule.fromStrings("\$I", "i"),
+    Rule.fromStrings("\$As", "as"),
+    Rule.fromStrings("\$An", "an"),
+    Rule.fromStrings("\$A", "a"),
+    Rule.fromStrings("\$By", "by"),
+    Rule.fromStrings("\$At", "at"),
+    Rule.fromStrings("\$And", "and"),
+    Rule.fromStrings("\$After", "after")
+  ];
 }

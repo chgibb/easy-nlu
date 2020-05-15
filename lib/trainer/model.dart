@@ -11,6 +11,9 @@ class Model {
       : _parser = parser,
         _weights = parser.weights;
 
+  Parser get parser => _parser;
+  Map<String, double> get weights => _weights;
+
   void train(Dataset d, Optimizer optimizer, int epochs) {
     double loss;
     double maxAcc = 0;
