@@ -31,8 +31,8 @@ void main() {
 
       List<Rule> rules = [];
       rules.addAll(Rule.baseRules);
-      rules.addAll(rulesFromText(
-          File("fixtures/reminders.rules").readAsStringSync()));
+      rules.addAll(
+          rulesFromText(File("fixtures/reminders.rules").readAsStringSync()));
 
       rules.addAll(DateTimeAnnotator.DATE_RULES);
 
