@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:easy_nlu/parser/derivation.dart';
+import 'package:matcher/matcher.dart';
 
 class LogicalForm {
   Map<String, Object> _map;
@@ -18,7 +18,10 @@ class LogicalForm {
   Derivation get derivation => _derivation;
 
   bool match(Map<String, Object> map) {
-    return MapEquality().equals(_map, map);
+    Matcher matcher = equals(_map);
+    var res = matcher.matches(map, {});
+
+    return res;
   }
 
   void updateScore(Map<String, double> weights) {

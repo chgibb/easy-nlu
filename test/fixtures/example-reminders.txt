@@ -26,9 +26,9 @@ see the dentist in 2 days	{"task":"see the dentist", "startTime":{"offset":{"day
 see the dentist in a day	{"task":"see the dentist", "startTime":{"offset":{"day":1}}}
 see the dentist in 2 days at 4	{"task":"see the dentist", "startTime":{"offset":{"day":2}, "hour":4}}
 
-meet Alice on Monday afternoon for lunch	{"task":"meet Alice", aux"task":"lunch", "startTime":{dow:1, "shift":"afternoon"}}
-meet Alice in the afternoon Monday for lunch	{"task":"meet Alice", aux"task":"lunch", "startTime":{dow:1, "shift":"afternoon"}}
-meet Alice Monday night for dinner	{"task":"meet Alice", aux"task":"dinner", "startTime":{dow:1, "shift":"night"}}
+meet Alice on Monday afternoon for lunch	{"task":"meet Alice", "auxtask":"lunch", "startTime":{"dow":1, "shift":"afternoon"}}
+meet Alice in the afternoon Monday for lunch	{"task":"meet Alice", "auxtask":"lunch", "startTime":{"dow":1, "shift":"afternoon"}}
+meet Alice Monday night for dinner	{"task":"meet Alice", "auxtask":"dinner", "startTime":{"dow":1, "shift":"night"}}
 
 go for a jog everyday at 6 in the morning	{"task":"go for a jog", "startTime":{"hour":6, "shift":"morning"}, "repeat":{"day":1}}
 go for a jog daily at 6 in the morning	{"task":"go for a jog", "startTime":{"hour":6, "shift":"morning"}, "repeat":{"day":1}}
@@ -57,8 +57,8 @@ wish Sara happy birthday on 14th June	{"task":"wish Sara happy birthday", "start
 wish Sara happy birthday on 14/06	{"task":"wish Sara happy birthday", "startTime":{"day":14, "month":6}}
 send happy birthday message to Sara on 14/06	{"task":"send happy birthday message to Sara", "startTime":{"day":14, "month":6}}
 
-speak to my mom at 10pm every sunday	{"task":"speak to my mom", "startTime":{"hour":10, "shift":"pm"}, "repeat":{dow:7}}
-speak to my mom each sunday by 10:00pm	{"task":"speak to my mom", "startTime":{"hour":10, "shift":"pm"}, "repeat":{dow:7}}
+speak to my mom at 10pm every sunday	{"task":"speak to my mom", "startTime":{"hour":10, "shift":"pm"}, "repeat":{"dow":7}}
+speak to my mom each sunday by 10:00pm	{"task":"speak to my mom", "startTime":{"hour":10, "shift":"pm"}, "repeat":{"dow":7}}
 
 drink water every 2 hrs between 10am and 4pm	{"task":"drink water", "startTime":{"hour":10, "shift":"am"}, "endTime":{"hour":4, "shift":"pm"}, "repeat":{"hour":2}}
 drink water between 10am and 4:00pm every 2 hrs	{"task":"drink water", "startTime":{"hour":10, "shift":"am"}, "endTime":{"hour":4, "shift":"pm"}, "repeat":{"hour":2}}
@@ -82,7 +82,7 @@ take Amy for dinner tomorrow	{"task":"take Amy for dinner", "startTime":{"offset
 take Amy for dinner next day	{"task":"take Amy for dinner", "startTime":{"offset":{"day":1}}}
 take Amy for dinner at the ritz tomorrow	{"task":"take Amy for dinner at the ritz", "startTime":{"offset":{"day":1}}}
 take Amy for a ride to boston tomorrow	{"task":"take Amy for a ride to boston", "startTime":{"offset":{"day":1}}}
-take Amy to boston tomorrow for a ride	{"task":"take Amy to boston", aux"task":"a ride", "startTime":{"offset":{"day":1}}}
+take Amy to boston tomorrow for a ride	{"task":"take Amy to boston", "auxtask":"a ride", "startTime":{"offset":{"day":1}}}
 
 pay electricity bill on the 23rd	{"task":"pay electricity bill", "startTime":{"day":23}}
 pay electricity bill on 23	{"task":"pay electricity bill", "startTime":{"day":23}}
@@ -104,13 +104,13 @@ put food in the freezer in an hr	{"task":"put food in the freezer", "startTime":
 
 pay Rs. 2000 to Jimmy tomorrow	{"task":"pay Rs. 2000 to Jimmy", "startTime":{"offset":{"day":1}}}
 pay Rs. 1259 to Jimmy next day	{"task":"pay Rs. 1259 to Jimmy", "startTime":{"offset":{"day":1}}}
-pay $100 to Jimmy next day	{"task":"pay USD100 to Jimmy", "startTime":{"offset":{"day":1}}}
+pay $100 to Jimmy next day	{"task":"pay $100 to Jimmy", "startTime":{"offset":{"day":1}}}
 
 call Judy in the evening tomorrow	{"task":"call Judy", "startTime":{"offset":{"day":1}, "shift":"evening"}}
 call Judy tomorrow in the evening	{"task":"call Judy", "startTime":{"offset":{"day":1}, "shift":"evening"}}
 call Judy by tomorrow evening	{"task":"call Judy", "startTime":{"offset":{"day":1}, "shift":"evening"}}
 
-meet accountant next week for filing tax	{"task":"meet accountant", aux"task":"filing tax", "startTime":{"offset":{"week":1}}}
+meet accountant next week for filing tax	{"task":"meet accountant", "auxtask":"filing tax", "startTime":{"offset":{"week":1}}}
 meet accountant for filing tax next week	{"task":"meet accountant for filing tax", "startTime":{"offset":{"week":1}}}
 meet accountant for filing tax tomorrow at noon	{"task":"meet accountant for filing tax", "startTime":{"offset":{"day":1}, "shift":"noon"}}
 

@@ -13,7 +13,6 @@ class NumberAnnotator with Annotator {
               Semantics.value(double.parse(tokens[0])))
         ];
       } catch (err) {
-        print(err);
       }
     }
     return [];
