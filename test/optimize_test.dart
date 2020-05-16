@@ -27,12 +27,12 @@ void main() {
           .set(SVMOptimizer.CORRECT_PROB, 0.4);
 
       Dataset d = Dataset.fromText(
-          File("test/fixtures/example-reminders.txt").readAsStringSync());
+          File("fixtures/example-reminders.txt").readAsStringSync());
 
       List<Rule> rules = [];
       rules.addAll(Rule.baseRules);
       rules.addAll(rulesFromText(
-          File("test/fixtures/reminders.rules").readAsStringSync()));
+          File("fixtures/reminders.rules").readAsStringSync()));
 
       rules.addAll(DateTimeAnnotator.DATE_RULES);
 
