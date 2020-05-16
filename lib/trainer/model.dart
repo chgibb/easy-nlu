@@ -18,7 +18,7 @@ class Model {
     double loss;
     double maxAcc = 0;
     int count;
-    Map<String, double> bestWeights={};
+    Map<String, double> bestWeights = {};
     for (var i = 0; i < epochs; ++i) {
       loss = 0;
       count = 0;

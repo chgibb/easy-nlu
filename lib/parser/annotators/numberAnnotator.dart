@@ -12,8 +12,7 @@ class NumberAnnotator with Annotator {
           Rule.fromStringsWithTemplate(NumberAnnotator.SYMBOL, tokens[0],
               Semantics.value(double.parse(tokens[0])))
         ];
-      } catch (err) {
-      }
+      } catch (err) {}
     }
     return [];
   }
