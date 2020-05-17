@@ -31,8 +31,8 @@ void main() {
 
       List<Rule> rules = [];
       rules.addAll(Rule.baseRules);
-      rules.addAll(
-          rulesFromText(File("fixtures/reminders.rules").readAsStringSync()));
+      rules.addAll(rulesFromText(
+          File("fixtures/reminders.rules").readAsStringSync()));
 
       rules.addAll(DateTimeAnnotator.DATE_RULES);
 
@@ -53,6 +53,17 @@ void main() {
       double acc = m.evaluate(d, 0);
 
       expect(acc, greaterThan(0.84));
+
+      File("test-weights.weights").writeAsStringSync(m.weightsToText());
+
+      Model m2 = Model(parser);
+      m2.loadWeights("test-weights.weights");
+
+      double acc2 = m2.evaluate(d, 0);
+
+      expect(acc, acc2);
+
+      File("test-weights.weights").deleteSync();
     });
   });
 }

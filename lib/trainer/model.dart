@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_nlu/parser/logicalForm.dart';
 import 'package:easy_nlu/parser/parser.dart';
 import 'package:easy_nlu/trainer/dataset.dart';
@@ -13,6 +15,37 @@ class Model {
 
   Parser get parser => _parser;
   Map<String, double> get weights => _weights;
+
+  void loadWeights(String filePath) {
+    _weights = _parseText(File(filePath).readAsStringSync());
+    parser.weights = _weights;
+  }
+
+  Map<String, double> _parseText(String text) {
+    Map<String, double> weights = {};
+
+    List<String> lines = text.split("\n");
+    for (var line in lines) {
+      line = line.trim();
+      if (line != null && line.isNotEmpty) {
+        List<String> items = line.split("\t");
+        assert(items.length == 2, "Malformed input");
+
+        weights[items[0].trim()] = double.parse(items[1].trim());
+      }
+    }
+
+    return weights;
+  }
+
+  String weightsToText() {
+    String res = "";
+
+    for (var entry in weights.entries) {
+      res += "${entry.key}\t${entry.value}\n";
+    }
+    return res;
+  }
 
   void train(Dataset d, Optimizer optimizer, int epochs) {
     double loss;
