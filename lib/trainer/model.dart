@@ -1,13 +1,22 @@
 import 'dart:io';
 
+import 'package:easy_nlu/parser/annotators/dateTimeAnnotator.dart';
+import 'package:easy_nlu/parser/annotators/numberAnnotator.dart';
+import 'package:easy_nlu/parser/annotators/phraseAnnotator.dart';
+import 'package:easy_nlu/parser/annotators/tokenAnnotator.dart';
+import 'package:easy_nlu/parser/grammar.dart';
 import 'package:easy_nlu/parser/logicalForm.dart';
 import 'package:easy_nlu/parser/parser.dart';
+import 'package:easy_nlu/parser/rule.dart';
+import 'package:easy_nlu/parser/rulesFromText.dart';
+import 'package:easy_nlu/parser/tokenizers/basicTokenizer.dart';
 import 'package:easy_nlu/trainer/dataset.dart';
 import 'package:easy_nlu/trainer/optimizer.dart';
 
 class Model {
   Parser _parser;
   Map<String, double> _weights;
+  String _modelPath;
 
   Model(Parser parser)
       : _parser = parser,
@@ -15,6 +24,40 @@ class Model {
 
   Parser get parser => _parser;
   Map<String, double> get weights => _weights;
+
+  factory Model.fromFiles(String modelPath) {
+    List<Rule> rules = [];
+    rules.addAll(Rule.baseRules);
+    rules.addAll(rulesFromText(File("$modelPath.rules").readAsStringSync()));
+    rules.addAll(DateTimeAnnotator.DATE_RULES);
+
+    Grammar grammar = Grammar(rules, "\$ROOT");
+    Parser parser = Parser(grammar, BasicTokenizer(), [
+      TokenAnnotator(),
+      PhraseAnnotator(),
+      NumberAnnotator(),
+      DateTimeAnnotator()
+    ]);
+
+    Model res = Model(parser);
+    res._modelPath = modelPath;
+
+    try {
+      res.loadWeights("$modelPath.weights");
+    } catch (err) {
+      //if we're building a model in order to train it and produce weights,
+      //this shouldn't be an error state
+    }
+
+    return res;
+  }
+
+  bool saveToFiles() {
+    File file = File("$_modelPath.weights");
+    file.writeAsStringSync(weightsToText());
+
+    return true;
+  }
 
   void loadWeights(String filePath) {
     _weights = _parseText(File(filePath).readAsStringSync());

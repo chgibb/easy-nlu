@@ -26,25 +26,10 @@ void main() {
           .withL2Penalty(0.01)
           .set(SVMOptimizer.CORRECT_PROB, 0.4);
 
-      Dataset d = Dataset.fromText(
-          File("fixtures/reminders.txt").readAsStringSync());
+      Dataset d =
+          Dataset.fromText(File("fixtures/reminders.txt").readAsStringSync());
 
-      List<Rule> rules = [];
-      rules.addAll(Rule.baseRules);
-      rules.addAll(rulesFromText(
-          File("fixtures/reminders.rules").readAsStringSync()));
-
-      rules.addAll(DateTimeAnnotator.DATE_RULES);
-
-      Grammar grammar = Grammar(rules, "\$ROOT");
-      Parser parser = Parser(grammar, BasicTokenizer(), [
-        TokenAnnotator(),
-        PhraseAnnotator(),
-        NumberAnnotator(),
-        DateTimeAnnotator()
-      ]);
-
-      Model m = Model(parser);
+      Model m = Model.fromFiles("fixtures/reminders");
 
       Optimizer optimizer = SVMOptimizer(m, hParams);
 
@@ -54,16 +39,16 @@ void main() {
 
       expect(acc, greaterThan(0.84));
 
-      File("reminders.weights").writeAsStringSync(m.weightsToText());
+      m.saveToFiles();
 
-      Model m2 = Model(parser);
-      m2.loadWeights("reminders.weights");
+      Model m2 = Model.fromFiles("fixtures/reminders");
+      m2.loadWeights("fixtures/reminders.weights");
 
       double acc2 = m2.evaluate(d, 0);
 
       expect(acc, acc2);
 
-      File("reminders.weights").deleteSync();
+      File("fixtures/reminders.weights").deleteSync();
     });
   });
 }
