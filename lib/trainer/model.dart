@@ -43,7 +43,7 @@ class Model {
     res._modelPath = modelPath;
 
     try {
-      res.loadWeights("$modelPath.weights");
+      res._loadWeights("$modelPath.weights");
     } catch (err) {
       //if we're building a model in order to train it and produce weights,
       //this shouldn't be an error state
@@ -54,12 +54,12 @@ class Model {
 
   bool saveToFiles() {
     File file = File("$_modelPath.weights");
-    file.writeAsStringSync(weightsToText());
+    file.writeAsStringSync(_weightsToText());
 
     return true;
   }
 
-  void loadWeights(String filePath) {
+  void _loadWeights(String filePath) {
     _weights = _parseText(File(filePath).readAsStringSync());
     parser.weights = _weights;
   }
@@ -81,7 +81,7 @@ class Model {
     return weights;
   }
 
-  String weightsToText() {
+  String _weightsToText() {
     String res = "";
 
     for (var entry in weights.entries) {

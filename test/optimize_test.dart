@@ -42,7 +42,6 @@ void main() {
       m.saveToFiles();
 
       Model m2 = Model.fromFiles("fixtures/reminders");
-      m2.loadWeights("fixtures/reminders.weights");
 
       double acc2 = m2.evaluate(d, 0);
 
