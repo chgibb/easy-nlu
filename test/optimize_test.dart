@@ -27,7 +27,7 @@ void main() {
           .set(SVMOptimizer.CORRECT_PROB, 0.4);
 
       Dataset d = Dataset.fromText(
-          File("fixtures/example-reminders.txt").readAsStringSync());
+          File("fixtures/reminders.txt").readAsStringSync());
 
       List<Rule> rules = [];
       rules.addAll(Rule.baseRules);
@@ -54,16 +54,16 @@ void main() {
 
       expect(acc, greaterThan(0.84));
 
-      File("test-weights.weights").writeAsStringSync(m.weightsToText());
+      File("reminders.weights").writeAsStringSync(m.weightsToText());
 
       Model m2 = Model(parser);
-      m2.loadWeights("test-weights.weights");
+      m2.loadWeights("reminders.weights");
 
       double acc2 = m2.evaluate(d, 0);
 
       expect(acc, acc2);
 
-      File("test-weights.weights").deleteSync();
+      File("reminders.weights").deleteSync();
     });
   });
 }
