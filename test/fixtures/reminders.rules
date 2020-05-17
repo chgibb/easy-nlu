@@ -40,4 +40,4 @@ $EveryShift	$Every $DATE_DURATION	@last
 $EndTime	$Till $DATE	{"endTime":"@last"}
 $EndTime	$To $DATE	{"endTime":"@last"}
 $BetweenTime	$Between $DATE $And $DATE	{"startTime":"@1", "endTime":"@3"}
-$AuxTask	$For $PHRASE	{"auxTask":"@last"}
+$AuxTask	$For $PHRASE	{"auxtask":"@last"}

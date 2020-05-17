@@ -52,7 +52,7 @@ void main() {
 
       double acc = m.evaluate(d, 0);
 
-      expect(acc, greaterThan(0.79));
+      expect(acc, greaterThan(0.84));
     });
   });
 }
