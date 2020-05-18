@@ -29,7 +29,7 @@ void main() {
       Dataset d =
           Dataset.fromText(File("fixtures/reminders.txt").readAsStringSync());
 
-      Model m = Model.fromFiles("fixtures/reminders",true);
+      Model m = Model.fromFiles("fixtures/reminders", true);
 
       Optimizer optimizer = SVMOptimizer(m, hParams);
 
@@ -41,7 +41,7 @@ void main() {
 
       m.saveToFiles();
 
-      Model m2 = Model.fromFiles("fixtures/reminders",true);
+      Model m2 = Model.fromFiles("fixtures/reminders", true);
 
       double acc2 = m2.evaluate(d, 0);
 

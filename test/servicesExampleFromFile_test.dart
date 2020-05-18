@@ -11,8 +11,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   group("", () {
     test("services example from file", () async {
-      List<Rule> rulesFromFile = rulesFromText(
-          File("fixtures/services.rules").readAsStringSync());
+      List<Rule> rulesFromFile =
+          rulesFromText(File("fixtures/services.rules").readAsStringSync());
 
       List<Rule> rules = [
         Rule.fromStringWithParsedTemplate("\$ROOT", "\$Setting", "@identity"),
