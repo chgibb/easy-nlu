@@ -1,0 +1,22 @@
+$ROOT	$Setting	@identity
+$Setting	$Feature $Action	@merge
+$Setting	$Action $Feature	@merge
+$Feature	$Bluetooth	{"feature": "bluetooth"}
+$Feature	$Wifi	{"feature": "wifi"}
+$Feature	$Gps	{"feature": "gps"}
+$Bluetooth	bt
+$Bluetooth	bluetooth
+$Wifi	wifi
+$Gps	gps
+$Gps	location
+$Action	$EnableDisable	{"action": "@first"}
+$EnableDisable	?$Switch $OnOff	@last
+$EnableDisable	$Enable	enable
+$EnableDisable 	$Disable	disable
+$OnOff	on	enable
+$OnOff	off	disable
+$Switch	switch
+$Switch	turn
+$Enable	enable
+$Disable	disable
+$Disable	kill

@@ -25,19 +25,28 @@ class Model {
   Parser get parser => _parser;
   Map<String, double> get weights => _weights;
 
-  factory Model.fromFiles(String modelPath) {
+  factory Model.fromFiles(String modelPath, [bool includeDefaultRules]) {
     List<Rule> rules = [];
-    rules.addAll(Rule.baseRules);
+    if (includeDefaultRules != null && includeDefaultRules) {
+      rules.addAll(Rule.baseRules);
+    }
     rules.addAll(rulesFromText(File("$modelPath.rules").readAsStringSync()));
-    rules.addAll(DateTimeAnnotator.DATE_RULES);
+    if (includeDefaultRules != null && includeDefaultRules) {
+      rules.addAll(DateTimeAnnotator.DATE_RULES);
+    }
 
     Grammar grammar = Grammar(rules, "\$ROOT");
-    Parser parser = Parser(grammar, BasicTokenizer(), [
-      TokenAnnotator(),
-      PhraseAnnotator(),
-      NumberAnnotator(),
-      DateTimeAnnotator()
-    ]);
+    Parser parser = Parser(
+        grammar,
+        BasicTokenizer(),
+        includeDefaultRules != null && includeDefaultRules
+            ? [
+                TokenAnnotator(),
+                PhraseAnnotator(),
+                NumberAnnotator(),
+                DateTimeAnnotator()
+              ]
+            : []);
 
     Model res = Model(parser);
     res._modelPath = modelPath;

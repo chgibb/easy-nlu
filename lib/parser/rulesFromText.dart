@@ -11,6 +11,8 @@ List<Rule> rulesFromText(String text) {
     }
     List<String> items = line.split("\t");
 
+    assert(items.length == 2 || items.length == 3, "Malformed line: $items");
+
     if (items.length == 3) {
       result.add(Rule.fromStringWithParsedTemplate(
           items[0].trim(), items[1].trim(), items[2].trim()));
