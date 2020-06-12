@@ -186,8 +186,8 @@ class Model {
       print("Average score: $score");
     }
 
-    print("Accuracy: $acc");
-    print("Oracle accuracy: $accOracle");
+    //print("Accuracy: $acc");
+    //print("Oracle accuracy: $accOracle");
 
     return acc;
   }
